@@ -79,9 +79,6 @@ stages:
     - script: |
         # Exit when any command returns a failure status.
         set -e
-
-        
-        
         # Write terraform.tfvars.
         echo 'resource_group_location = "'$(ResourceGroupLocation)'"' | tee terraform.tfvars
         # Write backend.tfvars.
@@ -92,16 +89,14 @@ stages:
 
         # Initialize Terraform.
         terraform init -input=false -backend-config="backend.tfvars"
-
-        terraform destroy --auto-approve
         # Apply the Terraform plan.
-        #terraform apply -input=false -auto-approve
+        terraform apply -input=false -auto-approve
 
         # Get the App Service name for the dev environment.
-        #WebAppNameDev=$(terraform output --raw appservice_name_dev)
+        WebAppNameDev=$(terraform output --raw appservice_name_dev)
 
         # Write the WebAppNameDev variable to the pipeline.
-        #echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev"
+        echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev"
       name: 'RunTerraform'
       displayName: 'Run Terraform'
       env:
@@ -109,22 +104,22 @@ stages:
         ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
         ARM_TENANT_ID: $(ARM_TENANT_ID)
         ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-  #- deployment: Deploy
-  #  dependsOn: Provision
-   # variables:
-    #  WebAppNameDev: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
-    #pool:
-     # vmImage: 'ubuntu-20.04'
-    #environment: dev
-    #strategy:
-     # runOnce:
-      #  deploy:
-       #   steps:
-        #  - download: current
-         #   artifact: drop
-          #- task: AzureWebApp@1
-           # displayName: 'Azure App Service Deploy: website'
-            #inputs:
-             # azureSubscription: 'Resource Manager - Tailspin - Space Game'
-              #appName: '$(WebAppNameDev)'
-              #package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+  - deployment: Deploy
+    dependsOn: Provision
+    variables:
+      WebAppNameDev: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
+    pool:
+      vmImage: 'ubuntu-20.04'
+    environment: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'Resource Manager - Tailspin - Space Game'
+              appName: '$(WebAppNameDev)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
