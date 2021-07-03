@@ -10,6 +10,12 @@ provider "azurerm" {
   features {}
 }
 
+variable "enviroments" {
+  description="Enviroments to deploy"
+  type= set(string)
+  default =["dev", "test", "staging"]
+}
+
 variable "resource_group_name" {
   default = "tailspin-space-game-rg"
   description = "The name of the resource group"
@@ -53,7 +59,8 @@ resource "azurerm_app_service_plan" "spacegame" {
 }
 
 resource "azurerm_app_service" "spacegame_dev" {
-  name                = "${var.app_service_name_prefix}-dev-${random_integer.app_service_name_suffix.result}"
+  for_each = var.enviroments
+  name                = "${var.app_service_name_prefix}-${each.value}-${random_integer.app_service_name_suffix.result}"
   location            = azurerm_resource_group.spacegame.location
   resource_group_name = azurerm_resource_group.spacegame.name
   app_service_plan_id = azurerm_app_service_plan.spacegame.id
@@ -65,10 +72,10 @@ resource "azurerm_app_service" "spacegame_dev" {
 }
 
 output "appservice_name_dev" {
-  value       = azurerm_app_service.spacegame_dev.name
-  description = "The App Service name for the dev environment"
+  value       = [for name in azurerm_app_service.spacegame_dev : name.name]
+  description = "The App Service name for the environments"
 }
 output "website_hostname_dev" {
-  value       = azurerm_app_service.spacegame_dev.default_site_hostname
-  description = "The hostname of the website in the dev environment"
+  value       = [for appname, appname in azurerm_app_service.spacegame_dev : appname.default_site_hostname]
+  description = "The hostname of the website in the environments"
 }
