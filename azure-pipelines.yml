@@ -114,7 +114,7 @@ stages:
   jobs:
   - deployment: Deploy 
     variables:
-      WebAppNameDev: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
+      WebAppNameDev: $[ dependencies.Provision.outputs['Terraform.RunTerraform.WebAppNameDev'] ]
     pool:
       vmImage: 'ubuntu-20.04'
     environment: dev
@@ -137,7 +137,7 @@ stages:
   jobs:
   - deployment: Deploy
     variables:
-      WebAppNameTest: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameTest'] ]
+      WebAppNameTest: $[ dependencies.Provision.outputs['Terraform.RunTerraform.WebAppNameTest'] ]
     pool:
       vmImage: 'ubuntu-20.04'
     environment: test
@@ -160,7 +160,7 @@ stages:
   jobs:
   - deployment: Deploy
     variables:
-      WebAppNameStaging: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameStaging'] ]
+      WebAppNameStaging: $[ dependencies.Provision.outputs['Terraform.RunTerraform.WebAppNameStaging'] ]
     pool:
       vmImage: 'ubuntu-20.04'
     environment: staging
