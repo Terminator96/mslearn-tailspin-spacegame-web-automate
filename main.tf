@@ -75,6 +75,14 @@ output "appservice_name_dev" {
   value       = azurerm_app_service.spacegame_dev["dev"].name
   description = "The App Service name for the environments"
 }
+output "appservice_name_test" {
+  value       = azurerm_app_service.spacegame_dev["test"].name
+  description = "The App Service name for the environments"
+}
+output "appservice_name_staging" {
+  value       = azurerm_app_service.spacegame_dev["staging"].name
+  description = "The App Service name for the environments"
+}
 output "website_hostname_dev" {
   value       = [for appname, appname in azurerm_app_service.spacegame_dev : appname.default_site_hostname]
   description = "The hostname of the website in the environments"

@@ -94,9 +94,13 @@ stages:
 
         # Get the App Service name for the dev environment.
         WebAppNameDev=$(terraform output --raw appservice_name_dev)
+        WebAppNameTest=$(terraform output --raw appservice_name_test)
+        WebAppNameStaging=$(terraform output --raw appservice_name_staging)
         prueba="Hiiiii"
         echo "Pruebas"
         echo $WebAppNameDev
+        echo $WebAppNameTest
+        echo $WebAppNameStaging
         # Write the WebAppNameDev variable to the pipeline.
         echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev[0]"
         echo "##vso[task.setvariable variable=prueba;isOutput=true]$prueba"
