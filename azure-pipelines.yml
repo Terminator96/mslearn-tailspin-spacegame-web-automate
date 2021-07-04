@@ -107,7 +107,7 @@ stages:
         ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
         ARM_TENANT_ID: $(ARM_TENANT_ID)
         ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-- stage: Deploy
+- stage: Dev
   displayName: Deploy dev
   dependsOn: Dev
   condition: succeeded()
@@ -130,7 +130,7 @@ stages:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-- stage: Deploy
+- stage: Test
   displayName: Deploy test
   dependsOn: Dev
   condition: succeeded()
@@ -153,7 +153,7 @@ stages:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameTest)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-- stage: Deploy
+- stage: Staging
   displayName: Deploy staging
   dependsOn: Dev
   condition: succeeded()
