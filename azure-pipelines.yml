@@ -114,7 +114,7 @@ stages:
     steps:
     - script: |
         echo "Variable se obtiene de terraform"
-        echo $(WebAppNameDev)
+        echo '$(WebAppNameDev)'
       name: Print
       displayName: Printing enviroments
   - deployment: Deploy
