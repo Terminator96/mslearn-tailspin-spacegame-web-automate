@@ -109,7 +109,7 @@ stages:
         ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
 - stage: Dev
   displayName: Deploy dev
-  dependsOn: Dev
+  dependsOn: Terraform
   condition: succeeded()
   jobs:
   - deployment: Deploy 
@@ -132,7 +132,7 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 - stage: Test
   displayName: Deploy test
-  dependsOn: Dev
+  dependsOn: Terraform
   condition: succeeded()
   jobs:
   - deployment: Deploy
@@ -155,7 +155,7 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 - stage: Staging
   displayName: Deploy staging
-  dependsOn: Dev
+  dependsOn: Terraform
   condition: succeeded()
   jobs:
   - deployment: Deploy
