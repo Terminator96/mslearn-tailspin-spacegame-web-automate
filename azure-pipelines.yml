@@ -105,15 +105,16 @@ stages:
         ARM_TENANT_ID: $(ARM_TENANT_ID)
         ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
   - job: Print
+    displayName: Printing
     dependsOn: Provision
     pool:
       vmImage: 'ubuntu-20.04'
-    - steps:
-      - script: |
-          echo "Variable se obtiene de terraform"
-          echo $[dependencies.Provision.outputs['RunTerraform.WebAppNameDev]
-        name: Print
-        displayName: Printing enviroments
+    steps:
+    - script: |
+        echo "Variable se obtiene de terraform"
+        echo $[dependencies.Provision.outputs['RunTerraform.WebAppNameDev]
+      name: Print
+      displayName: Printing enviroments
   - deployment: Deploy
     dependsOn: Provision
     variables:
