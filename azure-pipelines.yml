@@ -67,7 +67,7 @@ stages:
 
 - stage: 'Dev'
   displayName: 'Deploy to the dev environment'
-  dependsOn: Build
+  #dependsOn: Build
   jobs:
   - job: Provision
     displayName: 'Provision Azure App Service'
