@@ -123,7 +123,7 @@ stages:
         echo '$(test)'
       name: Print
       displayName: Printing enviroments
-  - deployment: Deploy
+  - deployment: Deploy Dev
     dependsOn: Provision
     variables:
       WebAppNameDev: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
@@ -142,7 +142,7 @@ stages:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-  - deployment: Deploy
+  - deployment: Deploy Test
     dependsOn: Provision
     variables:
       WebAppNameTest: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameTest'] ]
@@ -161,7 +161,7 @@ stages:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameTest)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-  - deployment: Deploy
+  - deployment: Deploy Staging
     dependsOn: Provision
     variables:
       WebAppNameStaging: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameStaging'] ]
