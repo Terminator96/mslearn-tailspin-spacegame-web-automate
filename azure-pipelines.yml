@@ -94,7 +94,7 @@ stages:
 
         # Get the App Service name for the dev environment.
         WebAppNameDev=$(terraform output appservice_name_dev)
-        
+        prueba="Hiiiii"
         # Write the WebAppNameDev variable to the pipeline.
         echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev"
       name: 'RunTerraform'
@@ -109,12 +109,15 @@ stages:
     dependsOn: Provision
     variables:
       WebAppNameDev: $[ dependencies.Provision.outputs['RunTerraform.WebAppNameDev'] ]
+      test: $[ dependencies.Provision.outputs['RunTerraform.prueba'] ]
     pool:
       vmImage: 'ubuntu-20.04'
     steps:
     - script: |
         echo "Variable se obtiene de terraform"
-        echo '$(WebAppNameDev)'
+        echo $(WebAppNameDev)
+        echo "Variable de prueba"
+        echo $(test)
       name: Print
       displayName: Printing enviroments
   - deployment: Deploy
