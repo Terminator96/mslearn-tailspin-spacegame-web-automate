@@ -96,7 +96,7 @@ stages:
         WebAppNameDev=$(terraform output appservice_name_dev)
         prueba="Hiiiii"
         # Write the WebAppNameDev variable to the pipeline.
-        echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev"
+        echo "##vso[task.setvariable variable=WebAppNameDev;isOutput=true]$WebAppNameDev[0]"
         echo "##vso[task.setvariable variable=prueba;isOutput=true]$prueba"
       name: 'RunTerraform'
       displayName: 'Run Terraform'
