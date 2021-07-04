@@ -72,7 +72,7 @@ resource "azurerm_app_service" "spacegame_dev" {
 }
 
 output "appservice_name_dev" {
-  value       = [for name in azurerm_app_service.spacegame_dev : name.name]
+  value       = azurerm_app_service.spacegame_dev[0]
   description = "The App Service name for the environments"
 }
 output "website_hostname_dev" {
