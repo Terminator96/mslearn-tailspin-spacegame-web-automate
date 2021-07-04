@@ -110,8 +110,10 @@ stages:
       vmImage: 'ubuntu-20.04'
     - steps:
       - script: |
-        echo "Variable se obtiene de terraform"
-        echo $[dependencies.Provision.outputs['RunTerraform.WebAppNameDev]
+          echo "Variable se obtiene de terraform"
+          echo $[dependencies.Provision.outputs['RunTerraform.WebAppNameDev]
+        name: Print
+        displayName: Printing enviroments
   - deployment: Deploy
     dependsOn: Provision
     variables:
